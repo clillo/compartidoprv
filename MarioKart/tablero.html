@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Pista</title>
+         <style>
+	        canvas{
+	               background-color:black; 
+	               background-image: url("media/map_1.png");
+	        };
+	        
+	        .container {
+				  position: relative;
+				}
+				
+			#i0 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+			#i1 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+			#i2 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+			#i3 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+			#i4 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+			#i5 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+			#i6 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+			#i7 { position: absolute; clip: rect(0, 25px, 25px, 0);	}
+        </style>
+        
+        <script src="jquery-3.3.1.min.js"></script>
+        <script src="corredores.js"></script>
+       
+       
+    </head>
+    
+
+   <body style="background-image: url(bg.jpg);">
+    	<div style="float: left;  width: 60%;">
+     		<canvas id="circle" width="512" height="512"></canvas>
+		</div>
+    	<div id="posiciones" style="float: right;  width: 40%;">
+    		<div style="text-align: center;:right;width:100%;"><img src="image.png" alt=""></div>
+     		<div id="im0" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i0"></div><div id="pos0" style="float: right; width: 75%;"></div><div style="float: clear;"></div>
+     		<div id="im1" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i1"></div><div id="pos1" style="float: right; width: 75%;"></div><div style="float: clear;"></div>
+     		<div id="im2" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i2"></div><div id="pos2" style="float: right; width: 75%;"></div><div style="float: clear;"></div>
+     		<div id="im3" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i3"></div><div id="pos3" style="float: right; width: 75%;"></div><div style="float: clear;"></div>
+     		<div id="im4" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i4"></div><div id="pos4" style="float: right; width: 75%;"></div><div style="float: clear;"></div> 
+     		<div id="im5" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i5"></div><div id="pos5" style="float: right; width: 75%;"></div><div style="float: clear;"></div>
+     		<div id="im6" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i6"></div><div id="pos6" style="float: right; width: 75%;"></div><div style="float: clear;"></div>
+     		<div id="im7" style="float: left; width: 15%;padding:5px 25px;" class="container"><img id="i7"></div><div id="pos7" style="float: right; width: 75%;"></div><div style="float: clear;"></div>
+		</div>
+		<div style="float: clear;"></div>
+		<style>
+			#posiciones {text-align: center;height: 550px;}
+			#pos0, #pos1,#pos2,#pos3,#pos4,#pos5,#pos6,#pos7,#pos8,#pos9,#pos10 {font-size: 18px;font-family: 'arial';text-align:left;padding:0 0 0 25px !important;color:white;}
+		</style>
+    <script>
+    
+		var ax = [0, 0, 0, 0, 0, 0, 0, 0];
+		var ay = [0, 0, 0, 0, 0, 0, 0, 0];
+	    
+		var doStuff = function () {
+			var canvas = document.getElementById('circle');
+			
+			if (canvas.getContext){
+					$.ajax({
+						  type: "GET",
+						  url: '/tablero' ,
+						  data: '',
+						  success: function (e) {
+							 // console.log(e);
+							  if(!(e=='')){
+							  var obj = JSON.parse(e);
+
+							  for (var i = 0; i < 7; i++) {
+								  kart = obj[i]; 
+							  	 
+					     		  var ctx = canvas.getContext('2d'); 
+								  
+					     		  if(!(ax[kart.id]==kart.x) || !(ay[kart.id]==kart.y))
+									 ctx.clearRect(ax[kart.id]-4, ay[kart.id]-4, 8, 8);
+								
+								  ax[kart.id] = kart.x;
+								  ay[kart.id] = kart.y;
+
+								  var div = document.getElementById('pos'+i);
+								  div.innerHTML = kart.nombre;
+								
+								  var dv = document.getElementById('im'+i);
+								  while (dv.hasChildNodes()) { 
+									    dv.removeChild(dv.lastChild); 
+									} 
+								  
+								  var img = document.createElement("IMG"); 
+								  img.src = "media/personajes/sprite_" + aCharacters[kart.id] + ".png";
+								  img.id = 'i'+i
+								  dv.appendChild(img); 
+								  
+								  
+								  //console.log(a);			
+								//  console.log("Hola "+e);
+								  ctx.beginPath();
+								  ctx.arc(kart.x, kart.y, 4, 0, 2 * Math.PI, false);
+							      ctx.fillStyle = colores[kart.id];
+								  ctx.fill();
+							  }
+						  	}
+						  }
+					});
+						
+				}
+			
+	
+		   setTimeout(doStuff, 20);
+		};
+		setTimeout(doStuff, 20);
+    </script>
+    </body>
+</html>
