@@ -4,7 +4,7 @@
   <artifactId>Push2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
    <properties>
-        <tomcat.version>8.0.28</tomcat.version>
+        <tomcat.version>8.5.63</tomcat.version>
     </properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
